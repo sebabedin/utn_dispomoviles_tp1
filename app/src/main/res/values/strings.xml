@@ -1,0 +1,25 @@
+<resources>
+    <!--y esto?-->
+    <string name="app_name">Aplicacion</string>
+
+    <string name="txtName_text">Nombre</string>
+    <string name="txtGPS_text">GPS</string>
+    <string name="txtIMU_text">IMU</string>
+    <string name="txtLogin_text">Login</string>
+
+    <!--MENU-->
+    <string name="itmTakePhoto_title">Capturar</string>
+    <string name="itmGallery_title">Galeria</string>
+    <string name="itmSettings_title">Configuración</string>
+    <string name="itmHelp_title">Ayuda</string>
+    <string name="itmAbout_title">Información</string>
+    <string name="itmExit_title">Salir</string>
+
+    <!--BOTONES-->
+    <string name="btnLog_text">Log</string>
+    <string name="btnAccept_text">Aceptar</string>
+
+    <!--DEBUG-->
+    <string name="btnStepOver_text">Step over</string>
+
+</resources>

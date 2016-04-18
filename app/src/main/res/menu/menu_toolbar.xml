@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".Activity.Activity_Main">
+
+    <item android:id="@+id/itmTakePhoto"
+        android:title="@string/itmTakePhoto_title"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/itmGallery"
+        android:title="@string/itmGallery_title"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/itmSettings"
+        android:title="@string/itmSettings_title"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/itmHelp"
+        android:title="@string/itmHelp_title"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/itmAbout"
+        android:title="@string/itmAbout_title"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+    <item android:id="@+id/itmExit"
+        android:title="@string/itmExit_title"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
+</menu>
