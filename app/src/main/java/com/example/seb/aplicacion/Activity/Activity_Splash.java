@@ -2,6 +2,7 @@ package com.example.seb.aplicacion.Activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,11 +15,15 @@ import android.widget.Button;
 
 public class Activity_Splash extends AppCompatActivity {
 
-    private Button btnLog;
+    /** Duration of wait **/
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
 
+    public Class gotoActivity;
+
+    /** Called when the activity is first created. */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate(Bundle icicle) {
+        super.onCreate(icicle);
         setContentView(R.layout.activity_splash);
 
         /**
@@ -37,16 +42,32 @@ public class Activity_Splash extends AppCompatActivity {
             appSettingEditor.commit();
         }
 
+        Log.i("appSetting.init", appSetting.getBoolean("init", false) ? "true" : "false");
+        Log.i("appSetting.name", appSetting.getString("name", ""));
+        Log.i("appSetting.gps", appSetting.getBoolean("gps", false) ? "true" : "false");
+        Log.i("appSetting.imu", appSetting.getBoolean("imu", false) ? "true" : "false");
+        Log.i("appSetting.log", appSetting.getBoolean("log", false) ? "true" : "false");
+
         /**
-         * goto LOGIN
+         * goto LOGIN-MAIN
          */
-        btnLog = (Button)findViewById(R.id.btnLog);
-        btnLog.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                Log.i("setOnClickListener", "btnLog");
-                Intent intent = new Intent(Activity_Splash.this, Activity_Login.class);
-                startActivity(intent);
+        if (appSetting.getBoolean("log", false))
+        {
+            gotoActivity = Activity_Login.class;
+        }
+        else
+        {
+            gotoActivity = Activity_Main.class;
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(Activity_Splash.this, gotoActivity);
+                Activity_Splash.this.startActivity(intent);
+                Activity_Splash.this.finish();
             }
-        });
+        }, SPLASH_DISPLAY_LENGTH);
     }
+
 }
