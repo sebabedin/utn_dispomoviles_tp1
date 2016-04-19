@@ -1,7 +1,12 @@
 package com.example.seb.aplicacion.Activity;
 
+//import extern.Databasehelper;
+import extern.Databasehelper;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteException;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +17,8 @@ import com.example.seb.aplicacion.R;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.IOException;
 
 public class Activity_Splash extends AppCompatActivity {
 
@@ -47,6 +54,27 @@ public class Activity_Splash extends AppCompatActivity {
         Log.i("appSetting.gps", appSetting.getBoolean("gps", false) ? "true" : "false");
         Log.i("appSetting.imu", appSetting.getBoolean("imu", false) ? "true" : "false");
         Log.i("appSetting.log", appSetting.getBoolean("log", false) ? "true" : "false");
+
+        /**
+         * DATABASE
+         */
+        Databasehelper myDbHelper;
+        myDbHelper = new Databasehelper(this);
+        try {
+            myDbHelper.createDatabase();
+
+        } catch (IOException ioe) {
+
+            throw new Error("Unable to create database");
+        }
+
+        try {
+            myDbHelper.openDatabase();
+
+        }catch(SQLException sqle){
+
+            throw sqle;
+        }
 
         /**
          * goto LOGIN-MAIN
