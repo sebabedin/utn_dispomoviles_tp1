@@ -2,10 +2,12 @@ package com.example.seb.aplicacion.Activity;
 
 //import extern.Databasehelper;
 import extern.Databasehelper;
+import extern.UsuariosSQLiteHelper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -58,22 +60,30 @@ public class Activity_Splash extends AppCompatActivity {
         /**
          * DATABASE
          */
-        Databasehelper myDbHelper;
-        myDbHelper = new Databasehelper(this);
-        try {
-            myDbHelper.createDatabase();
+        //Abrimos la base de datos 'DBUsuarios' en modo escritura
+        UsuariosSQLiteHelper usdbh = new UsuariosSQLiteHelper(this, "DBUsuarios", null, 1);
 
-        } catch (IOException ioe) {
+        SQLiteDatabase db = usdbh.getWritableDatabase();
 
-            throw new Error("Unable to create database");
-        }
+        //Si hemos abierto correctamente la base de datos
+        if(db != null)
+        {
+            //Insertamos 5 usuarios de ejemplo
+            for(int i=1; i<=5; i++)
+            {
+                //Generamos los datos
+                int codigo = i;
+                String nombre = "Usuario" + i;
 
-        try {
-            myDbHelper.openDatabase();
+                //Insertamos los datos en la tabla Usuarios
+                db.execSQL( "INSERT INTO Usuarios (codigo, nombre) " +
+                            "VALUES (" + codigo + ", '" + nombre +"')");
 
-        }catch(SQLException sqle){
+                Log.i("SQLiteDatabase", "INSERT");
+            }
 
-            throw sqle;
+            //Cerramos la base de datos
+            db.close();
         }
 
         /**

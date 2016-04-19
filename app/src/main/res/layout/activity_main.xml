@@ -22,32 +22,32 @@
             android:text="Hola Seba"
             android:id="@+id/textView" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ir a botones"
-            android:id="@+id/btnBotones"
-            android:layout_below="@+id/textView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="71dp" />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Ir a botones"-->
+            <!--android:id="@+id/btnBotones"-->
+            <!--android:layout_below="@+id/textView"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="71dp" />-->
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ir a Login"
-            android:id="@+id/btnLogin"
-            android:layout_below="@+id/textView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="71dp" />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Ir a Login"-->
+            <!--android:id="@+id/btnLogin"-->
+            <!--android:layout_below="@+id/textView"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="71dp" />-->
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ir a ToolBar"
-            android:id="@+id/btnToolBar"
-            android:layout_below="@+id/textView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="71dp" />
+        <!--<Button-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Ir a ToolBar"-->
+            <!--android:id="@+id/btnToolBar"-->
+            <!--android:layout_below="@+id/textView"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_marginTop="71dp" />-->
 
     </LinearLayout>
 
