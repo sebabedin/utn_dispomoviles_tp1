@@ -20,7 +20,8 @@
         <activity android:name=".Activity.Activity_Botones" />
         <activity android:name=".Activity.Activity_SQL" />
         <activity android:name=".Activity.Activity_About" />
-        <activity android:name=".Activity.Activity_Settings"></activity>
+        <activity android:name=".Activity.Activity_Settings" />
+        <activity android:name=".Activity.Activity_Take"></activity>
     </application>
 
 </manifest>

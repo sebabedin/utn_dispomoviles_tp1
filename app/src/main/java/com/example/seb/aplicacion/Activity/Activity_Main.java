@@ -111,6 +111,8 @@ public class Activity_Main extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.itmTakePhoto:
                 Log.i("onOptionsItemSelected", "itmTakePhoto");
+                i = new Intent(Activity_Main.this, Activity_Take.class);
+                startActivity(i);
                 return true;
             case R.id.itmGallery:
                 Log.i("onOptionsItemSelected", "itmGallery");
