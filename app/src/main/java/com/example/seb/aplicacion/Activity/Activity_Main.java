@@ -41,11 +41,26 @@ public class Activity_Main extends AppCompatActivity {
         UsuariosSQLiteHelper usdbh = new UsuariosSQLiteHelper(this, "DBUsuarios", null, 1);
 
         SQLiteDatabase db = usdbh.getWritableDatabase();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setContentView(R.layout.activity_main);
+
+        textView = (TextView)findViewById(R.id.textView);
+
+        /**
+         * BASE DE DATOS
+         */
+        //Abrimos la base de datos 'DBUsuarios' en modo escritura
+        UsuariosSQLiteHelper usdbh = new UsuariosSQLiteHelper(this, "DBUsuarios", null, 1);
+
+        SQLiteDatabase db = usdbh.getWritableDatabase();
 
         String[] campos = new String[] {"codigo", "nombre"};
         String[] args = new String[] {"usu1"};
 
-//        Cursor c = db.query("Usuarios", campos, "nombre=?", args, null, null, null);
         Cursor c = db.query("Usuarios", campos, null, null, null, null, null);
 
         //Nos aseguramos de que existe al menos un registro
@@ -64,24 +79,6 @@ public class Activity_Main extends AppCompatActivity {
                 Log.i("SQLiteDatabase", salida);
             } while(c.moveToNext());
         }
-
-
-//        btnBotones = (Button)findViewById(R.id.btnBotones);
-//        btnBotones.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View arg0) {
-//                Intent intent = new Intent(Activity_Main.this, Activity_Botones.class);
-//                startActivity(intent);
-//            }
-//        });
-
-//        btnLogin = (Button)findViewById(R.id.btnLogin);
-//        btnLogin.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View arg0)
-//            {
-//                Intent intent = new Intent(Activity_Main.this, Activity_Login.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     /**
@@ -101,9 +98,6 @@ public class Activity_Main extends AppCompatActivity {
 //        {
 //            return super.onOptionsItemSelected(item);
 //        }
-//
-//
-//
 //        return true;
 
         Intent i;
