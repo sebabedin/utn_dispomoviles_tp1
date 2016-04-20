@@ -9,8 +9,10 @@
 
     <!--MENU-->
     <string name="itmTakePhoto_title">Capturar</string>
+    <string name="itmExport_title">Exportar</string>
     <string name="itmGallery_title">Galeria</string>
     <string name="itmSettings_title">Configuración</string>
+    <string name="itmClean_title">Borrar</string>
     <string name="itmHelp_title">Ayuda</string>
     <string name="itmAbout_title">Información</string>
     <string name="itmExit_title">Salir</string>

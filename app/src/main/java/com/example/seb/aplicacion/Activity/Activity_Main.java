@@ -114,12 +114,22 @@ public class Activity_Main extends AppCompatActivity {
                 i = new Intent(Activity_Main.this, Activity_Take.class);
                 startActivity(i);
                 return true;
+            case R.id.itmExport:
+                Log.i("onOptionsItemSelected", "itmExport");
+                i = new Intent(Activity_Main.this, Activity_Exportar.class);
+                startActivity(i);
+                return true;
             case R.id.itmGallery:
                 Log.i("onOptionsItemSelected", "itmGallery");
                 return true;
             case R.id.itmSettings:
                 Log.i("onOptionsItemSelected", "itmSettings");
                 i = new Intent(Activity_Main.this, Activity_Settings.class);
+                startActivity(i);
+                return true;
+            case R.id.itmClean:
+                Log.i("onOptionsItemSelected", "itmExport");
+                i = new Intent(Activity_Main.this, Activity_Clean.class);
                 startActivity(i);
                 return true;
             case R.id.itmHelp:
