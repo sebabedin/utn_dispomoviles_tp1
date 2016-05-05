@@ -13,18 +13,13 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/itmGallery"
-        android:title="@string/itmGallery_title"
+    <item android:id="@+id/itmClean"
+        android:title="@string/itmClean_title"
         android:orderInCategory="100"
         app:showAsAction="never" />
 
     <item android:id="@+id/itmSettings"
         android:title="@string/itmSettings_title"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-
-    <item android:id="@+id/itmClean"
-        android:title="@string/itmClean_title"
         android:orderInCategory="100"
         app:showAsAction="never" />
 

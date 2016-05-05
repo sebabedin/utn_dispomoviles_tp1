@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,12 +21,18 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class Activity_Splash extends AppCompatActivity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
+    private final int SPLASH_DISPLAY_LENGTH = 5000;
 
     public Class gotoActivity;
 
@@ -89,6 +96,108 @@ public class Activity_Splash extends AppCompatActivity {
             //Cerramos la base de datos
             db.close();
         }
+
+        try
+        {
+            OutputStreamWriter fout=
+                    new OutputStreamWriter(
+                            openFileOutput("prueba_int.txt", Context.MODE_PRIVATE));
+
+            fout.write("Texto de prueba.");
+            fout.close();
+        }
+        catch (Exception ex)
+        {
+            Log.e("Ficheros", "Error al escribir fichero a memoria interna");
+        }
+
+        /** ------------------------------------------------------------------ */
+
+
+        boolean sdDisponible = false;
+        boolean sdAccesoEscritura = false;
+
+        //Comprobamos el estado de la memoria externa (tarjeta SD)
+        String estado = Environment.getExternalStorageState();
+
+        if (estado.equals(Environment.MEDIA_MOUNTED))
+        {
+            sdDisponible = true;
+            sdAccesoEscritura = true;
+        }
+        else if (estado.equals(Environment.MEDIA_MOUNTED_READ_ONLY))
+        {
+            sdDisponible = true;
+            sdAccesoEscritura = false;
+        }
+        else
+        {
+            sdDisponible = false;
+            sdAccesoEscritura = false;
+        }
+
+        //Si la memoria externa est� disponible y se puede escribir
+        if (sdDisponible && sdAccesoEscritura)
+        {
+            try
+            {
+                File ruta_sd_global = Environment.getExternalStorageDirectory();
+                //File ruta_sd_app_musica = getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+
+                File f = new File(ruta_sd_global.getAbsolutePath(), "prueba_sd.txt");
+
+                OutputStreamWriter fout =
+                        new OutputStreamWriter(
+                                new FileOutputStream(f));
+
+                fout.write("Texto de prueba.");
+                fout.close();
+
+                Log.i("Ficheros", "Fichero SD creado!");
+            }
+            catch (Exception ex)
+            {
+                Log.e("Ficheros", "Error al escribir fichero a tarjeta SD");
+            }
+        }
+
+        /** ------------------------------------------------------------------- */
+
+        try
+        {
+            File ruta_sd_global = Environment.getExternalStorageDirectory();
+
+            File f = new File(ruta_sd_global.getAbsolutePath(), "prueba_sd.txt");
+
+            Log.i("Ficheros ruta", ruta_sd_global.getAbsolutePath().toString());
+
+            BufferedReader fin =
+                    new BufferedReader(
+                            new InputStreamReader(
+                                    new FileInputStream(f)));
+
+            String texto = fin.readLine();
+            fin.close();
+
+            Log.i("Ficheros", "Fichero SD leido!");
+            Log.i("Ficheros", "Texto: " + texto);
+        }
+        catch (Exception ex)
+        {
+            Log.e("Ficheros", "Error al leer fichero desde tarjeta SD");
+        }
+
+
+        /** ----------------------------------------------------------------------- */
+
+
+
+
+
+
+
+
+
 
         /**
          * goto LOGIN-MAIN

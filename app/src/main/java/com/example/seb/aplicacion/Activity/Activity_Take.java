@@ -2,13 +2,17 @@ package com.example.seb.aplicacion.Activity;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.seb.aplicacion.R;
 
@@ -23,6 +27,14 @@ public class Activity_Take extends AppCompatActivity {
     private TextView txtResultado;
 
     public SQLiteDatabase db;
+
+    private Button btnCaptura;
+
+    private ImageView img;
+
+    final static int cons = 0;
+    Bitmap bmp;
+    Bundle ext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +62,7 @@ public class Activity_Take extends AppCompatActivity {
                             "VALUES (0, '" + foto.toString() +"')");
 
                 Log.i("SQLiteDatabase", "INSERT");
+                Toast.makeText(Activity_Take.this, "Nuevo campos insertado :)", Toast.LENGTH_SHORT).show();
 
                 txtResultado.setText("Nuevo campos insertado :)");
             }
@@ -62,5 +75,28 @@ public class Activity_Take extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        img = (ImageView)findViewById(R.id.imagen);
+
+        btnCaptura = (Button)findViewById(R.id.btnCaptura);
+        btnCaptura.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, cons);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == Activity_Take.RESULT_OK)
+        {
+            ext = data.getExtras();
+        }
+        bmp = (Bitmap)ext.get("data");
+        img.setImageBitmap(bmp);
     }
 }
