@@ -22,6 +22,12 @@
         android:text="Volver"
         android:id="@+id/btnGoBack" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Captura"
+            android:id="@+id/btnCaptura" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,14 +66,6 @@
                 android:id="@+id/imagen"
                 android:layout_gravity="center_horizontal" />
 
-
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Procesar"
-                android:id="@+id/btnCaptura" />
-
         </LinearLayout>
 
         <Button
@@ -83,26 +81,6 @@
             android:id="@+id/txtResultado"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
-
-
-
-        <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Ir a Login"-->
-        <!--android:id="@+id/btnLogin"-->
-        <!--android:layout_below="@+id/textView"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginTop="71dp" />-->
-
-        <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Ir a ToolBar"-->
-        <!--android:id="@+id/btnToolBar"-->
-        <!--android:layout_below="@+id/textView"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginTop="71dp" />-->
 
     </LinearLayout>
 
