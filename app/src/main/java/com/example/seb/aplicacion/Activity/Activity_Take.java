@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.Date;
 
 import extern.UsuariosSQLiteHelper;
 
@@ -44,11 +46,6 @@ public class Activity_Take extends AppCompatActivity {
     final static int cons = 0;
     Bitmap bmp;
     Bundle ext;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +120,12 @@ public class Activity_Take extends AppCompatActivity {
                 {
                     try
                     {
+
+                        Date d = new Date();
+                        CharSequence s  = DateFormat.format("yyyyMMddHHmmss", d.getTime());
+
                         File ruta_sd_global = Environment.getExternalStorageDirectory();
-                        f = new File(ruta_sd_global.getAbsolutePath(), "imagen.jpg");
+                        f = new File(ruta_sd_global.getAbsolutePath(), s.toString() + ".jpg");
                         Log.d("__TAKE__", "Ruta de almacenamiento: " + f.toString());
 
                         Log.d("__TAKE__", "Guardando ...");
