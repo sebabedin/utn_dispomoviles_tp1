@@ -13,12 +13,14 @@ import android.widget.Toast;
 
 import com.example.seb.aplicacion.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+
 import extern.UsuariosSQLiteHelper;
 
 public class Activity_Clean extends AppCompatActivity {
 
     private Button btnProcesar;
-    private TextView txtResultado;
 
     public SQLiteDatabase db;
 
@@ -28,7 +30,6 @@ public class Activity_Clean extends AppCompatActivity {
         setContentView(R.layout.activity_clean);
 
         btnProcesar     = (Button) findViewById(R.id.btnProcesar);
-        txtResultado    = (TextView) findViewById(R.id.txtResultado);
 
         UsuariosSQLiteHelper usdbh = new UsuariosSQLiteHelper(this, "DB", null, 1);
         db = usdbh.getWritableDatabase();
@@ -38,11 +39,49 @@ public class Activity_Clean extends AppCompatActivity {
 
                 /**
                  * TODO: poner un checkbox para validar que quiero borrar !
-                  */
+                 */
 
+                /**
+                 * Busqueda
+                 */
+                Log.d("__CLEAN__", "Busqueda ...");
+                String[] campos = new String[] {"cap_ID", "cap_Foto"};
+                Cursor c = db.query("capturas", campos, null, null, null, null, null);
+                Log.d("__CLEAN__", "[OK]");
+
+                /**
+                 * Elimiando archivos de fotos
+                 */
+                Log.d("__CLEAN__", "Eliminando fotos ...");
+                if (c.moveToFirst()) {
+                    do {
+                        String nombre = c.getString(1);
+
+                        try {
+                            File f = new File(nombre);
+                            f.delete();
+                            Log.d("__CLEAN__", nombre + " ... eliminada");
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.d("__CLEAN__", nombre + " ... ERROR");
+                        }
+
+                    } while(c.moveToNext());
+                }
+                Log.d("__CLEAN__", "[OK]");
+
+                /**
+                 * Eliminando registros de la base de datos
+                 */
+                Log.d("__CLEAN__", "Eliminando registros ...");
                 db.delete("capturas", null, null);
-                Log.i("setOnClickListener", "ELIMINADO");
+                Log.d("__CLEAN__", "[OK]");
 
+                /**
+                 * Saliendo
+                 */
+                Log.d("__CLEAN__", "Tschüss!");
                 Toast.makeText(Activity_Clean.this, "Información eliminada", Toast.LENGTH_SHORT).show();
                 Intent i;
                 i = new Intent(Activity_Clean.this, Activity_Main.class);

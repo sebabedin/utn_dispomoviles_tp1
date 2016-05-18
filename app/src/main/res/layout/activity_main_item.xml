@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Activity.Activity_Clean">
+    tools:context=".Activity.Activity_Main">
 
     <LinearLayout
         android:orientation="vertical"
@@ -16,19 +16,20 @@
         android:layout_alignTop="@+id/textView2"
         android:layout_alignParentStart="true">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imagen"
+            android:layout_gravity="center_horizontal" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Borrar"
-                android:id="@+id/btnProcesar" />
-
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/texto" />
 
     </LinearLayout>
+
+
 
 </RelativeLayout>

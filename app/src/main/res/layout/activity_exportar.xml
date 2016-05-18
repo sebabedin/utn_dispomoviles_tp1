@@ -13,7 +13,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@+id/textView2"
         android:layout_alignParentStart="true">
 
         <LinearLayout
@@ -24,8 +23,14 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Procesar"
+                android:text="Exportar"
                 android:id="@+id/btnProcesar" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Leer"
+                android:id="@+id/btnLeer" />
 
         </LinearLayout>
 
@@ -38,22 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
-                android:id="@+id/txtResultado"
+                android:id="@+id/contenido"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Activity de EXPORTAR"
-                android:id="@+id/textView" />
 
         </LinearLayout>
 

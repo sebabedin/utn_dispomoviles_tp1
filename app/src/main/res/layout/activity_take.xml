@@ -17,22 +17,16 @@
         android:layout_alignParentStart="true">
 
         <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Volver"
-        android:id="@+id/btnGoBack" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Volver"
+            android:id="@+id/btnGoBack" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Captura"
             android:id="@+id/btnCaptura" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="CAPTURAR"
-            android:id="@+id/textView" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -54,7 +48,6 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -73,14 +66,6 @@
             android:layout_height="wrap_content"
             android:text="Procesar"
             android:id="@+id/btnProcesar" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-"
-            android:id="@+id/txtResultado"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
 
     </LinearLayout>
 
