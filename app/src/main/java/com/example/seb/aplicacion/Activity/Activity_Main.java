@@ -188,6 +188,13 @@ public class Activity_Main extends AppCompatActivity {
                 i = new Intent(Activity_Main.this, Activity_About.class);
                 startActivity(i);
                 return true;
+
+            case R.id.itmLocalizacion:
+                Log.i("onOptionsItemSelected", "itmLocalizacion");
+                i = new Intent(Activity_Main.this, Activity_Localizacion.class);
+                startActivity(i);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

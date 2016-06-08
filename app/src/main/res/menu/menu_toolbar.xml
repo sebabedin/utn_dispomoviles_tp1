@@ -33,4 +33,9 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
+    <item android:id="@+id/itmLocalizacion"
+        android:title="@string/itmLoclaizacion_title"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+
 </menu>
