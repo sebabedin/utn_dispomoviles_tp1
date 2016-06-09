@@ -4,10 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -17,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,7 +28,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import extern.UsuariosSQLiteHelper;
-import uIO.uMenu;
 
 public class Activity_Main extends AppCompatActivity {
 
@@ -192,6 +187,18 @@ public class Activity_Main extends AppCompatActivity {
             case R.id.itmLocalizacion:
                 Log.i("onOptionsItemSelected", "itmLocalizacion");
                 i = new Intent(Activity_Main.this, Activity_Localizacion.class);
+                startActivity(i);
+                return true;
+
+            case R.id.itmAcelerometro:
+                Log.i("onOptionsItemSelected", "itmAcelerometro");
+                i = new Intent(Activity_Main.this, Activity_Acelerometro.class);
+                startActivity(i);
+                return true;
+
+            case R.id.itmCompas:
+                Log.i("onOptionsItemSelected", "itmCompas");
+                i = new Intent(Activity_Main.this, Activity_Compas.class);
                 startActivity(i);
                 return true;
 
