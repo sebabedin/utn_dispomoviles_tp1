@@ -1,8 +1,13 @@
 package com.example.seb.aplicacion.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -26,11 +31,13 @@ import extern.UsuariosSQLiteHelper;
 
 public class Activity_Take extends AppCompatActivity {
 
-    private Button btnGoBack;
-    private EditText intxtFoto;
-    private Button btnProcesar;
-    private Button btnCaptura;
-    private ImageView imgImagen;
+    private Button      btnGoBack;
+    private EditText    intxtFoto;
+    private Button      btnProcesar;
+    private Button      btnCaptura;
+    private ImageView   imgImagen;
+
+    private TextView viewGPSLon, viewGPSLat, viewGPSSattus;
 
     public SQLiteDatabase db;
     final static int cons = 0;
@@ -39,16 +46,39 @@ public class Activity_Take extends AppCompatActivity {
     String ImagenNombre;
     String ImagenPath;
 
+    private SharedPreferences appSetting;
+    private boolean gps, imu, com;
+    private LocationManager locManager;
+    private LocationListener locListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take);
 
-        intxtFoto = (EditText) findViewById(R.id.intxtFoto);
+        viewGPSLon      = (TextView) findViewById(R.id.viewGPSLon);
+        viewGPSLat      = (TextView) findViewById(R.id.viewGPSLat);
+        viewGPSSattus   = (TextView) findViewById(R.id.viewGPSSattus);
+
+
+        /**
+         * Preferencias
+         */
+        appSetting = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        gps = appSetting.getBoolean("gps", true);
+        imu = appSetting.getBoolean("gps", true);
+        com = appSetting.getBoolean("com", true);
+        if(gps)
+        {
+            comenzarLocalizacion();
+        }
+
+
+        intxtFoto   = (EditText) findViewById(R.id.intxtFoto);
         btnProcesar = (Button) findViewById(R.id.btnProcesar);
-        btnGoBack = (Button) findViewById(R.id.btnGoBack);
-        imgImagen = (ImageView) findViewById(R.id.imagen);
-        btnCaptura = (Button) findViewById(R.id.btnCaptura);
+        btnGoBack   = (Button) findViewById(R.id.btnGoBack);
+        imgImagen   = (ImageView) findViewById(R.id.imagen);
+        btnCaptura  = (Button) findViewById(R.id.btnCaptura);
 
         /**
          * Base de datos
@@ -69,9 +99,7 @@ public class Activity_Take extends AppCompatActivity {
          */
         btnGoBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-
                 Log.d("__TAKE__", "Botón VOLVER");
-
                 Intent intent = new Intent(Activity_Take.this, Activity_Main.class);
                 startActivity(intent);
 
@@ -83,9 +111,7 @@ public class Activity_Take extends AppCompatActivity {
          */
         btnCaptura.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-
                 Log.d("__TAKE__", "Botón CAPTURAR");
-
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, cons);
 
@@ -97,9 +123,7 @@ public class Activity_Take extends AppCompatActivity {
          */
         btnProcesar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-
                 Log.d("__TAKE__", "Botón PROCESAR");
-
                 /**
                  * FORM CHECK
                  */
@@ -109,7 +133,6 @@ public class Activity_Take extends AppCompatActivity {
                     Log.d("__TAKE__", "Campo 'Foto' vacio :( ");
                     return;
                 }
-
                 /**
                  * Guardar imagen en SD
                  */
@@ -175,14 +198,11 @@ public class Activity_Take extends AppCompatActivity {
                 boolean dbCapturaNueva = false;
                 if (sdImgGuardada) {
                     Log.d("__TAKE__", "Insert ...");
-
                     String SQL_cmd = "INSERT INTO capturas (cap_Foto, cap_IMU, cap_GPS) " +
                             "VALUES ('" + ImagenPath + "', 0, 0)";
                     Log.d("__TAKE__", SQL_cmd);
                     db.execSQL(SQL_cmd);
-
                     Log.d("__TAKE__", "[OK]");
-
                     dbCapturaNueva = true;
                 }
 
@@ -193,7 +213,6 @@ public class Activity_Take extends AppCompatActivity {
                 {
                     intxtFoto.setText("");
                     imgImagen.setImageBitmap(null);
-
                     Toast.makeText(Activity_Take.this, "Nueva captura :)", Toast.LENGTH_SHORT).show();
                     Log.d("__TAKE__", "proceso [OK]");
                 }
@@ -204,18 +223,54 @@ public class Activity_Take extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == Activity_Take.RESULT_OK) {
             ext = data.getExtras();
         }
-
         bmp = (Bitmap) ext.get("data");
-
         Date d = new Date();
         CharSequence s = DateFormat.format("yyyyMMddHHmmss", d.getTime());
         ImagenNombre = s + ".jpg";
         intxtFoto.setText(ImagenNombre.toString());
-
         imgImagen.setImageBitmap(bmp);
+    }
+
+    private void comenzarLocalizacion()
+    {
+        locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        locListener = new LocationListener() {
+            public void onLocationChanged(Location location) {
+                mostrarPosicion(location);
+            }
+            public void onProviderDisabled(String provider){
+                viewGPSSattus.setText("Provider OFF");
+            }
+            public void onProviderEnabled(String provider){
+                viewGPSSattus.setText("Provider ON ");
+            }
+            public void onStatusChanged(String provider, int status, Bundle extras){
+                Log.i("", "Provider Status: " + status);
+                viewGPSSattus.setText("Provider Status: " + status);
+            }
+        };
+
+        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, locListener);
+    }
+
+    private void mostrarPosicion(Location loc) {
+        if(loc != null)
+        {
+            viewGPSLat.setText("Latitud: " + String.valueOf(loc.getLatitude()));
+            viewGPSLon.setText("Longitud: " + String.valueOf(loc.getLongitude()));
+//            lblPrecision.setText("Precision: " + String.valueOf(loc.getAccuracy()));
+            Log.i("", String.valueOf(loc.getLatitude() + " - " + String.valueOf(loc.getLongitude())));
+        }
+        else
+        {
+            viewGPSLat.setText("Latitud: (sin_datos)");
+            viewGPSLon.setText("Longitud: (sin_datos)");
+//            lblPrecision.setText("Precision: (sin_datos)");
+        }
     }
 }

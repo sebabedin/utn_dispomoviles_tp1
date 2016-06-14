@@ -48,20 +48,21 @@ public class Activity_Main extends AppCompatActivity {
 
         /**
          * Menu contextual
+         * TODO: agregar
          */
-
-
-//        textView = (TextView)findViewById(R.id.textView);
-//        img = (ImageView) findViewById(R.id.imagen);
-//
-//        layout = (ViewGroup) findViewById(R.id.contenido);
 
         /**
          * BASE DE DATOS
          */
-        //Abrimos la base de datos 'DBUsuarios' en modo escritura
         UsuariosSQLiteHelper usdbh = new UsuariosSQLiteHelper(this, "DB", null, 1);
         SQLiteDatabase db = usdbh.getWritableDatabase();
+        if (db == null) {
+            Log.e("__MAIN__", "[Error]");
+            db.close();
+            // FIXME: cerrar aplicación
+        } else {
+            Log.d("__MAIN__", "[OK]");
+        }
     }
 
     @Override
@@ -69,25 +70,24 @@ public class Activity_Main extends AppCompatActivity {
         super.onStart();
         setContentView(R.layout.activity_main);
 
-//        textView = (TextView)findViewById(R.id.textView);
-//        img = (ImageView) findViewById(R.id.imagen);
         layout = (ViewGroup) findViewById(R.id.contenido);
 
         /**
          * BASE DE DATOS
          */
-
         Log.d("__MAIN__", "Busqueda ...");
-        //Abrimos la base de datos 'DBUsuarios' en modo escritura
         UsuariosSQLiteHelper usdbh = new UsuariosSQLiteHelper(this, "DB", null, 1);
-
         SQLiteDatabase db = usdbh.getWritableDatabase();
-
-        String[] campos = new String[] {"cap_ID", "cap_Foto"};
-        String[] args = new String[] {"usu1"};
-
-        Cursor c = db.query("capturas", campos, null, null, null, null, null);
-
+        if (db == null) {
+            Log.e("__MAIN__", "[Error]");
+            db.close();
+            // FIXME: cerrar aplicación
+        } else {
+            Log.d("__MAIN__", "[OK]");
+        }
+        String[] campos = new String[] {"cap_ID", "cap_Foto", "cap_Fecha", "cap_GPS_Lat", "cap_GPS_Lon"};
+        String[] args = null;
+        Cursor c = db.query("capturas", campos, null, args, null, null, null);
         Log.d("__MAIN__", "[OK]");
 
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -99,22 +99,26 @@ public class Activity_Main extends AppCompatActivity {
                 RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(id, null, false);
                 relativeLayout.getId();
 
-                TextView textView = (TextView) relativeLayout.findViewById(R.id.texto);
+                TextView viewID     = (TextView) relativeLayout.findViewById(R.id.id);
+                TextView viewFecha  = (TextView) relativeLayout.findViewById(R.id.fecha);
+                TextView viewLat    = (TextView) relativeLayout.findViewById(R.id.lat);
+                TextView viewLon    = (TextView) relativeLayout.findViewById(R.id.lon);
                 ImageView imageView = (ImageView) relativeLayout.findViewById(R.id.imagen);
 
-//                textView.setText(String.valueOf(System.currentTimeMillis()));
+                String strID        = c.getString(0);
+                String strNombre    = c.getString(1);
+                String strFecha     = c.getString(2);
+                String strLat       = c.getString(3);
+                String strLon       = c.getString(4);
 
-                String codigo = c.getString(0);
-                String nombre = c.getString(1);
-                String salida = textView.getText().toString() + "\r\n" +
-                        codigo + " - " +
-                        nombre;
-                textView.setText(salida.toString());
+                viewID.setText(strID);
+                viewFecha.setText(strFecha);
+                viewLat.setText(strLat);
+                viewLon.setText(strLon);
 
-                Log.d("__MAIN__", "Texto:" + salida);
+                Log.d("__MAIN__", "Texto");
 
-                Uri output = Uri.fromFile(new File(nombre));
-//                img.setImageURI(output);
+                Uri output = Uri.fromFile(new File(strNombre));
                 InputStream is;
                 try {
                     Log.d("__MAIN__", "Carga imagen ...");
@@ -199,6 +203,12 @@ public class Activity_Main extends AppCompatActivity {
             case R.id.itmCompas:
                 Log.i("onOptionsItemSelected", "itmCompas");
                 i = new Intent(Activity_Main.this, Activity_Compas.class);
+                startActivity(i);
+                return true;
+
+            case R.id.itmVisual:
+                Log.i("onOptionsItemSelected", "itmVisual");
+                i = new Intent(Activity_Main.this, visual.class);
                 startActivity(i);
                 return true;
 

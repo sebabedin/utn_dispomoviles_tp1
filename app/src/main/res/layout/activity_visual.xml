@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".Activity.visual">
+
+    <LinearLayout style="@style/cel.normal.formulario.campos">
+
+        <LinearLayout style="@style/cel.normal.formulario.campo"
+            android:orientation="vertical">
+
+            <TextView style="@style/cel.normal.formulario.campo_nombre"
+                android:text="Foto" />
+
+            <EditText style="@style/cel.normal.formulario.campo_texto"
+                android:id="@+id/foto"
+                android:text="Foto" />
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/cel.normal.formulario.campo">
+
+            <TextView style="@style/cel.normal.formulario.campo_nombre"
+                android:text="Nombre" />
+
+            <EditText style="@style/cel.normal.formulario.campo_texto"
+                android:id="@+id/nombre"
+                android:text="Nombre" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

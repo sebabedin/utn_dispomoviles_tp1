@@ -7,6 +7,10 @@
             android:title="IMU"
             android:summary="Activar datos IMU" />
         <CheckBoxPreference
+            android:key="com"
+            android:title="COM"
+            android:summary="Activar datos compas" />
+        <CheckBoxPreference
             android:key="gps"
             android:title="GPS"
             android:summary="Activar datos GPS" />

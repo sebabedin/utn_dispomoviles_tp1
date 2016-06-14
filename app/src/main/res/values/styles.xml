@@ -8,4 +8,38 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- campo_grupo -->
+    <style name="cel.normal.formulario.campos" parent="AppTheme">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <!-- campo -->
+    <style name="cel.normal.formulario.campo" parent="AppTheme">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_gravity">center_horizontal|right</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <!-- nombre de campo -->
+    <style name="cel.normal.formulario.campo_nombre" parent="AppTheme">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal|left</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
+    <!-- campo de texto -->
+    <style name="cel.normal.formulario.campo_texto" parent="AppTheme">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
 </resources>
