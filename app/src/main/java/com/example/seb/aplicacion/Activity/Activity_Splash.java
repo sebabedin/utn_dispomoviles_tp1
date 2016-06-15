@@ -32,7 +32,7 @@ import java.io.OutputStreamWriter;
 public class Activity_Splash extends AppCompatActivity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 20000;
+    private final int SPLASH_DISPLAY_LENGTH = 2000;
 
     private Class activityGoTo;
 

@@ -34,4 +34,20 @@
     <string name="desactivar">Desactivar</string>
     <string name="estado_proveedor">Estado proveedor:</string>
 
+    <string name="campoBaseNombre">Base Nombre</string>
+    <string name="campoBaseClave">Base Clave</string>
+    <string name="campoNombre">Nombre</string>
+    <string name="campoClave">Clave</string>
+    <string name="campoFoto">Foto</string>
+    <string name="botonCapturar">Capturar</string>
+    <string name="botonProcesar">Procesar</string>
+    <string name="botonAceptar">Aceptar</string>
+    <string name="campoObtenerCapturar">Obtener imagen</string>
+    <string name="campoCopiaSensor">Sensores</string>
+    <string name="tituloGPS">GPS</string>
+    <string name="campoFinalizar">Finalizar</string>
+    <string name="campoLatitud">Latitud</string>
+    <string name="campoLongitud">Longitud</string>
+    <string name="botonCopiar">Copiar</string>
+
 </resources>

@@ -9,7 +9,7 @@
     </style>
 
     <!-- campo_grupo -->
-    <style name="cel.normal.formulario.campos" parent="AppTheme">
+    <style name="campos" parent="AppTheme">
         <item name="android:orientation">vertical</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -17,29 +17,85 @@
     </style>
 
     <!-- campo -->
-    <style name="cel.normal.formulario.campo" parent="AppTheme">
+    <style name="campo" parent="AppTheme">
         <item name="android:orientation">vertical</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_gravity">center_horizontal|right</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom</item>
         <item name="android:paddingBottom">10dp</item>
     </style>
 
+    <!-- campo_comando -->
+    <style name="campo_comando" parent="AppTheme">
+        <item name="android:background">#ee5151</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+
     <!-- nombre de campo -->
-    <style name="cel.normal.formulario.campo_nombre" parent="AppTheme">
+    <style name="campo_nombre" parent="AppTheme">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_horizontal|left</item>
         <item name="android:textSize">15dp</item>
     </style>
 
+    <style name="campo_titulo" parent="AppTheme">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal|left</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="campo_comando_nombre" parent="AppTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textSize">15dp</item>
+        <item name="android:layout_weight">50</item>
+    </style>
+
     <!-- campo de texto -->
-    <style name="cel.normal.formulario.campo_texto" parent="AppTheme">
+    <style name="campo_texto" parent="AppTheme">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:textSize">20dp</item>
         <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <!-- campo_boton_aceptar -->
+    <style name="campos_botones" parent="AppTheme">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:gravity">end</item>
+        <item name="android:background">@android:color/holo_blue_dark</item>
+    </style>
+
+    <!-- boton Aceptar -->
+
+    <style name="boton" parent="AppTheme">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+    </style>
+
+    <!-- boton comando -->
+    <style name="comando_boton" parent="AppTheme">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentStart">true</item>
+        <item name="android:layout_gravity">right</item>
+        <item name="android:layout_weight">50</item>
     </style>
 
 </resources>

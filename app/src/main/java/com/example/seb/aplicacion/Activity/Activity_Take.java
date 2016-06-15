@@ -1,5 +1,6 @@
 package com.example.seb.aplicacion.Activity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,13 +33,17 @@ import extern.UsuariosSQLiteHelper;
 
 public class Activity_Take extends AppCompatActivity {
 
-    private Button      btnGoBack;
-    private EditText    intxtFoto;
-    private Button      btnProcesar;
-    private Button      btnCaptura;
-    private ImageView   imgImagen;
+    private final String DEBUG_TAG = "Take";
+    private final int GPS_PROVIDER_CYCLETIME = 5000;
+    private final String MSG_CAMPO_FOTO_VACIO = "Campo 'Foto' vacio :(";
+    private final String MSG_PROCESO_OK = "Nueva captura :)";
+    private final String MSG_PROCESO_ERROR = "Error";
 
-    private TextView viewGPSLon, viewGPSLat, viewGPSSattus;
+    private Button viewProcesar;
+    private Button viewCapturar;
+    private Button viewCopiar;
+
+    private ImageView   imgImagen;
 
     public SQLiteDatabase db;
     final static int cons = 0;
@@ -47,38 +53,36 @@ public class Activity_Take extends AppCompatActivity {
     String ImagenPath;
 
     private SharedPreferences appSetting;
-    private boolean gps, imu, com;
+    private boolean sett_gps, sett_imu, com;
+
     private LocationManager locManager;
     private LocationListener locListener;
+
+    private FormularioData formData;
+    private GPSData gpsData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take);
 
-        viewGPSLon      = (TextView) findViewById(R.id.viewGPSLon);
-        viewGPSLat      = (TextView) findViewById(R.id.viewGPSLat);
-        viewGPSSattus   = (TextView) findViewById(R.id.viewGPSSattus);
-
+        gpsData = new GPSData();
+        formData = new FormularioData();
+        formData.setGPS(gpsData);
 
         /**
          * Preferencias
          */
         appSetting = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
-        gps = appSetting.getBoolean("gps", true);
-        imu = appSetting.getBoolean("gps", true);
+        sett_gps = appSetting.getBoolean("gps", true);
+        sett_imu = appSetting.getBoolean("gps", true);
         com = appSetting.getBoolean("com", true);
-        if(gps)
-        {
-            comenzarLocalizacion();
+        if(sett_gps) {
+            GPSLocation_Init();
         }
 
-
-        intxtFoto   = (EditText) findViewById(R.id.intxtFoto);
-        btnProcesar = (Button) findViewById(R.id.btnProcesar);
-        btnGoBack   = (Button) findViewById(R.id.btnGoBack);
+//        intxtFoto   = (EditText) findViewById(R.id.intxtFoto);
         imgImagen   = (ImageView) findViewById(R.id.imagen);
-        btnCaptura  = (Button) findViewById(R.id.btnCaptura);
 
         /**
          * Base de datos
@@ -93,129 +97,22 @@ public class Activity_Take extends AppCompatActivity {
             Log.d("__TAKE__", "[OK]");
         }
 
-
-        /**
-         * Boton Volver
-         */
-        btnGoBack.setOnClickListener(new View.OnClickListener() {
+        viewCapturar = (Button) findViewById(R.id.viewForm_Capturar);
+        viewCapturar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                Log.d("__TAKE__", "Botón VOLVER");
-                Intent intent = new Intent(Activity_Take.this, Activity_Main.class);
-                startActivity(intent);
-
+                viewCapturar_OnClick(arg0);
             }
         });
-
-        /**
-         * Boton Capturar
-         */
-        btnCaptura.setOnClickListener(new View.OnClickListener() {
+        viewCopiar = (Button) findViewById(R.id.viewForm_Copiar);
+        viewCopiar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                Log.d("__TAKE__", "Botón CAPTURAR");
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, cons);
-
+                viewCopiar_OnClick(arg0);
             }
         });
-
-        /**
-         * Boton Procesar
-         */
-        btnProcesar.setOnClickListener(new View.OnClickListener() {
+        viewProcesar = (Button) findViewById(R.id.viewForm_Procesar);
+        viewProcesar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                Log.d("__TAKE__", "Botón PROCESAR");
-                /**
-                 * FORM CHECK
-                 */
-                String foto = intxtFoto.getText().toString();
-                if (foto.isEmpty()) {
-                    Toast.makeText(Activity_Take.this, "Campo 'Foto' vacio :( ", Toast.LENGTH_SHORT).show();
-                    Log.d("__TAKE__", "Campo 'Foto' vacio :( ");
-                    return;
-                }
-                /**
-                 * Guardar imagen en SD
-                 */
-                boolean sdDisponible = false;
-                boolean sdAccesoEscritura = false;
-                boolean sdImgGuardada = false;
-                String estado = Environment.getExternalStorageState();
-                if (estado.equals(Environment.MEDIA_MOUNTED))
-                {
-                    sdDisponible = true;
-                    sdAccesoEscritura = true;
-                    Log.d("__TAKE__", "sdDisponible = true; sdAccesoEscritura = true;");
-                }
-                else if (estado.equals(Environment.MEDIA_MOUNTED_READ_ONLY))
-                {
-                    sdDisponible = true;
-                    sdAccesoEscritura = false;
-                    Log.d("__TAKE__", "sdDisponible = true; sdAccesoEscritura = false;");
-                }
-                else
-                {
-                    sdDisponible = false;
-                    sdAccesoEscritura = false;
-                    Log.d("__TAKE__", "sdDisponible = false; sdAccesoEscritura = false;");
-                }
-
-                if (sdDisponible && sdAccesoEscritura)
-                {
-                    try
-                    {
-                        FileOutputStream outStream;
-                        File f;
-
-                        File ruta_sd_global = Environment.getExternalStorageDirectory();
-                        f = new File(ruta_sd_global.getAbsolutePath(), ImagenNombre);
-                        ImagenPath = f.toString();
-                        Log.d("__TAKE__", "Ruta de almacenamiento: " + ImagenPath);
-
-                        Log.d("__TAKE__", "Guardando ...");
-                        outStream = new FileOutputStream(f);
-                        bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
-                        outStream.flush();
-                        outStream.close();
-                        Log.d("__TAKE__", "[OK]");
-                        sdImgGuardada = true;
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.d("__TAKE__", "[ERROR]");
-                        Toast.makeText(Activity_Take.this, "Error", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-                else
-                {
-                    Toast.makeText(Activity_Take.this, "Error", Toast.LENGTH_SHORT).show();
-                    Log.d("__TAKE__", "[ERROR] Acceso a SD");
-                }
-
-                /**
-                 * Guardar registro en DB
-                 */
-                boolean dbCapturaNueva = false;
-                if (sdImgGuardada) {
-                    Log.d("__TAKE__", "Insert ...");
-                    String SQL_cmd = "INSERT INTO capturas (cap_Foto, cap_IMU, cap_GPS) " +
-                            "VALUES ('" + ImagenPath + "', 0, 0)";
-                    Log.d("__TAKE__", SQL_cmd);
-                    db.execSQL(SQL_cmd);
-                    Log.d("__TAKE__", "[OK]");
-                    dbCapturaNueva = true;
-                }
-
-                /**
-                 * Finalizo el proceso : Éxito
-                 */
-                if(dbCapturaNueva)
-                {
-                    intxtFoto.setText("");
-                    imgImagen.setImageBitmap(null);
-                    Toast.makeText(Activity_Take.this, "Nueva captura :)", Toast.LENGTH_SHORT).show();
-                    Log.d("__TAKE__", "proceso [OK]");
-                }
+                viewProcesar_OnClick(arg0);
             }
         });
     }
@@ -223,54 +120,339 @@ public class Activity_Take extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity_Take.RESULT_OK) {
+        if (Activity_Take.RESULT_OK == resultCode) {
             ext = data.getExtras();
         }
         bmp = (Bitmap) ext.get("data");
-        Date d = new Date();
-        CharSequence s = DateFormat.format("yyyyMMddHHmmss", d.getTime());
-        ImagenNombre = s + ".jpg";
-        intxtFoto.setText(ImagenNombre.toString());
         imgImagen.setImageBitmap(bmp);
+        formData.setFoto(null);
+        formData.GPSRefresh();
     }
 
-    private void comenzarLocalizacion()
+    /**
+     * Localización
+     */
+    private void GPSLocation_Init()
     {
-        locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                GPS_PROVIDER_CYCLETIME,
+                0,
+                new LocationListener() {
+                    public void onLocationChanged(Location loc) {
+                        if (loc != null) {
+                            String lat = String.valueOf(loc.getLatitude());
+                            String lon = String.valueOf(loc.getLongitude());
+                            Log.i("", "GPS lat:" + lat);
+                            Log.i("", "GPS lon:" + lon);
+                            gpsData.setPos(lat, lon);
+                        } else {
+                            Log.i("", "GPS no locatio");
+                            gpsData.setPos(null, null);
+                        }
+                    }
 
-        locListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                mostrarPosicion(location);
-            }
-            public void onProviderDisabled(String provider){
-                viewGPSSattus.setText("Provider OFF");
-            }
-            public void onProviderEnabled(String provider){
-                viewGPSSattus.setText("Provider ON ");
-            }
-            public void onStatusChanged(String provider, int status, Bundle extras){
-                Log.i("", "Provider Status: " + status);
-                viewGPSSattus.setText("Provider Status: " + status);
-            }
-        };
+                    public void onProviderDisabled(String provider) {
+                        Log.i("", "GPS OFF");
+                        gpsData.Disabled();
+                    }
 
-        locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, locListener);
+                    public void onProviderEnabled(String provider) {
+                        Log.i("", "GPS ON");
+                        gpsData.Enabled();
+                    }
+
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+                        Log.i("", "GPS status: " + status);
+                        gpsData.Status(status);
+                    }
+                });
     }
 
-    private void mostrarPosicion(Location loc) {
-        if(loc != null)
+    public void viewCapturar_OnClick(View arg0) {
+        Log.d(DEBUG_TAG, "viewCapturar_OnClick");
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, cons);
+    }
+
+    public void viewCopiar_OnClick(View arg0) {
+        Log.d(DEBUG_TAG, "viewCopiar_OnClick");
+        formData.GPSRefresh();
+    }
+
+    private boolean Form_FieldsCheck() {
+        boolean ret = true;
+        if (formData.strFoto.isEmpty()) {
+            Log.d(DEBUG_TAG, MSG_CAMPO_FOTO_VACIO);
+            Toast.makeText(Activity_Take.this, MSG_CAMPO_FOTO_VACIO, Toast.LENGTH_SHORT).show();
+            ret = false;
+        }
+        return ret;
+    }
+
+    private boolean SD_Check() {
+        boolean ret = false;
+        String status = Environment.getExternalStorageState();
+        if (status.equals(Environment.MEDIA_MOUNTED))
         {
-            viewGPSLat.setText("Latitud: " + String.valueOf(loc.getLatitude()));
-            viewGPSLon.setText("Longitud: " + String.valueOf(loc.getLongitude()));
-//            lblPrecision.setText("Precision: " + String.valueOf(loc.getAccuracy()));
-            Log.i("", String.valueOf(loc.getLatitude() + " - " + String.valueOf(loc.getLongitude())));
+            Log.d(DEBUG_TAG, "SD_Check: ok " + Environment.MEDIA_MOUNTED);
+            ret = true;
+        }
+        else if (status.equals(Environment.MEDIA_MOUNTED_READ_ONLY))
+        {
+            Log.d(DEBUG_TAG, "SD_Check: error " + Environment.MEDIA_MOUNTED_READ_ONLY);
         }
         else
         {
-            viewGPSLat.setText("Latitud: (sin_datos)");
-            viewGPSLon.setText("Longitud: (sin_datos)");
-//            lblPrecision.setText("Precision: (sin_datos)");
+            Log.d(DEBUG_TAG, "SD_Check: error other");
+        }
+        return ret;
+    }
+
+    private boolean SD_BMPSave() {
+        boolean ret = false;
+        if(SD_Check()) {
+            try {
+//                File ruta_sd_global = Environment.getExternalStorageDirectory();
+                File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), formData.getFoto());
+                Log.d(DEBUG_TAG, "SD_BMPSave: " + f.toString());
+                FileOutputStream outStream = new FileOutputStream(f);
+
+                bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+
+                outStream.flush();
+                outStream.close();
+
+//                Log.d("__TAKE__", "[OK]");
+//                sdImgGuardada = true;
+
+                ret = true;
+            }
+            catch (Exception ex) {
+                Log.d(DEBUG_TAG, "SD_BMPSave: error catch");
+                return false;
+            }
+        }
+        else {
+            Log.d(DEBUG_TAG, "SD_BMPSave: error SD_Check");
+        }
+        return ret;
+    }
+
+    private boolean DB_Insert() {
+        boolean ret = false;
+        Log.d(DEBUG_TAG, "DB_Insert");
+
+//        boolean dbCapturaNueva = false;
+//                    String SQL_cmd;
+//                    SQL_cmd = "INSERT INTO capturas (" +
+//                            "cap_Foto, cap_IMU, cap_GPS, cap_GPS_Lon, cap_GPS_Lat" +
+//                            ") VALUES (" +
+//                            "'" + ImagenPath + "'," +
+//                            (sett_imu ? 1 : 0) + "," +
+//                            (sett_gps ? 1 : 0) + "," +
+//                            "'" + gpsData.strLat + "'," +
+//                            "'" + gpsData.strLon + ")";
+//                    Log.d("__TAKE__", SQL_cmd);
+//                    db.execSQL(SQL_cmd);
+//                    Log.d("__TAKE__", "[OK]");
+//            dbCapturaNueva = true;
+
+            ContentValues values = new ContentValues();
+            values.put("cap_Foto", formData.getFoto());
+            values.put("cap_IMU", (sett_imu ? 1 : 0));
+            values.put("cap_GPS", (sett_gps ? 1 : 0));
+            values.put("cap_GPS_Lat", formData.getLat());
+            values.put("cap_GPS_Lon", formData.getLon());
+            if(-1 == db.insert("capturas", null, values)) {
+                Log.d(DEBUG_TAG, "DB_Insert: error");
+            } else {
+                ret = true;
+            }
+//                    Cursor c = db.query("capturas", campos, null, args, null, null, null);
+//                    Log.d("__MAIN__", "[OK]");
+
+        return ret;
+    }
+
+    public void viewProcesar_OnClick(View arg0) {
+        Log.d(DEBUG_TAG, "viewProcesar_OnClick");
+
+        if(!Form_FieldsCheck())
+            return;
+
+        if(!SD_BMPSave()) {
+            Log.d(DEBUG_TAG, "viewProcesar_OnClick: SD_BMPSave");
+            Toast.makeText(Activity_Take.this, MSG_PROCESO_ERROR, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(!DB_Insert()) {
+            Log.d(DEBUG_TAG, "viewProcesar_OnClick: DB_Insert");
+            Toast.makeText(Activity_Take.this, MSG_PROCESO_ERROR, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        imgImagen.setImageBitmap(null);
+        Log.d(DEBUG_TAG, MSG_PROCESO_OK);
+        Toast.makeText(Activity_Take.this, MSG_PROCESO_OK, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Formulario Data
+     */
+    private class FormularioData
+    {
+        private EditText viewLon, viewLat, viewFoto;
+        private Button viewCopiar;
+        private GPSData gps;
+
+        public String strLat, strLon, strFoto;
+
+        /**
+         * Public
+         */
+        public FormularioData()
+        {
+            this.viewInit();
+        }
+
+        public void Refresh()
+        {
+            this.viewRefresh();
+        }
+
+        public void setGPS(GPSData gps)
+        {
+            this.gps = gps;
+        }
+
+        public void GPSRefresh()
+        {
+            this.strLat = this.gps.strLat;
+            this.strLon = this.gps.strLon;
+            this.viewRefresh();
+        }
+
+        public String getLat()
+        {
+            return this.viewLat.getText().toString();
+        }
+
+        public String getLon()
+        {
+            return this.viewLon.getText().toString();
+        }
+
+        public String getFoto()
+        {
+            return this.viewFoto.getText().toString();
+        }
+
+        public void setFoto(String foto)
+        {
+            if(null == foto)
+            {
+                Date d = new Date();
+                CharSequence s = DateFormat.format("yyyyMMddHHmmss", d.getTime());
+                foto = s + ".jpg";
+            }
+            this.strFoto = foto;
+            this.viewRefresh();
+//            return this.viewFoto.getText().toString();
+        }
+
+        /**
+         * Private
+         */
+        private void viewInit() {
+            this.viewFoto = (EditText) findViewById(R.id.viewForm_Foto);
+            this.viewLat = (EditText) findViewById(R.id.viewForm_Lat);
+            this.viewLon = (EditText) findViewById(R.id.viewForm_Lon);
+            this.viewCopiar = (Button) findViewById(R.id.viewForm_Copiar);
+        }
+
+        private void viewRefresh()
+        {
+            this.viewLat.setText(this.strLat);
+            this.viewLon.setText(this.strLon);
+            this.viewFoto.setText(this.strFoto);
+        }
+    }
+
+    /**
+     * GPS Data
+     */
+    private class GPSData
+    {
+        private TextView viewLon, viewLat, viewStatus, viewAccuracy;
+        public String strLat, strLon, strStatus, strAccuracy;
+        public Integer intStatus;
+        public Boolean enable;
+
+        /**
+         * Public
+         */
+        public GPSData()
+        {
+            this.viewInit();
+            this.setPos(null, null);
+            this.Disabled();
+            this.Status(0);
+//            this.Refresh();
+        }
+
+        public void Disabled()
+        {
+            this.enable = false;
+            this.Refresh();
+        }
+
+        public void Enabled()
+        {
+            this.enable = true;
+            this.Refresh();
+        }
+
+        public void Status(int status)
+        {
+            this.intStatus = status;
+            this.Refresh();
+        }
+
+        public void setPos(String lat, String lon)
+        {
+            if((null == lat) || (null == lon))
+            {
+                lat = "sin datos";
+                lon = "sin datos";
+            }
+            this.strLat = lat;
+            this.strLon = lon;
+            this.Refresh();
+        }
+
+        public void Refresh()
+        {
+            this.viewRefresh();
+        }
+
+        /**
+         * Private
+         */
+        private void viewInit() {
+            this.viewLat      = (TextView) findViewById(R.id.viewGPS_Lat);
+            this.viewLon      = (TextView) findViewById(R.id.viewGPS_Lon);
+            this.viewStatus   = (TextView) findViewById(R.id.viewGPS_Status);
+//            this.viewAccuracy = (TextView) findViewById(R.id.GPS_viewAccuracy);
+        }
+
+        private void viewRefresh()
+        {
+            this.viewLat.setText("Latitud: " + this.strLat);
+            this.viewLon.setText("Longitud: " + this.strLon);
+            this.viewStatus.setText("Estado: " + this.intStatus);
+//            this.viewAccuracy.setText(this.strAccuracy);
         }
     }
 }

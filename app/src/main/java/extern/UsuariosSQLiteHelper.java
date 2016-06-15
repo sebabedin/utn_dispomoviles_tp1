@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class UsuariosSQLiteHelper extends SQLiteOpenHelper {
 
-    String sqlCreate = "CREATE TABLE capturas (cap_Fecha TEXT, cap_GPS_Lon NUMERIC, cap_GPS_Lat NUMERIC, cap_COM_R NUMERIC, cap_COM_P NUMERIC, cap_COM_Y NUMERIC, cap_COM NUMERIC, cap_IMU_Gyro_R NUMERIC, cap_IMU_Gyro_P NUMERIC, cap_IMU_Gyro_Y NUMERIC, cap_IMU_Acc_Z NUMERIC, cap_IMU_Acc_Y NUMERIC, cap_IMU_Acc_X NUMERIC, cap_ID INTEGER PRIMARY KEY, cap_Foto TEXT, cap_IMU NUMERIC, cap_GPS NUMERIC);";
+    String sqlCreate = "CREATE TABLE capturas (cap_GPS_Lon TEXT, cap_GPS_Lat TEXT, cap_COM_R NUMERIC, cap_COM_P NUMERIC, cap_COM_Y NUMERIC, cap_COM NUMERIC, cap_IMU_Gyro_R NUMERIC, cap_IMU_Gyro_P NUMERIC, cap_IMU_Gyro_Y NUMERIC, cap_IMU_Acc_Z NUMERIC, cap_IMU_Acc_Y NUMERIC, cap_IMU_Acc_X NUMERIC, cap_ID INTEGER PRIMARY KEY, cap_Foto TEXT, cap_IMU NUMERIC, cap_GPS NUMERIC);";
 
     public UsuariosSQLiteHelper(Context contexto, String nombre,
                                 SQLiteDatabase.CursorFactory factory, int version) {
