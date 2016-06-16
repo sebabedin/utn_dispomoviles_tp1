@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import java.io.FileNotFoundException;
 import extern.UsuariosSQLiteHelper;
 
 public class Activity_Clean extends AppCompatActivity {
+
+    private final String DEBUG_TAG              = "Clean";
 
     private Button btnProcesar;
 
@@ -89,5 +92,19 @@ public class Activity_Clean extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
+        switch (item.getItemId()) {
+            case R.id.itmVolver:
+                Log.i(DEBUG_TAG, "onOptionsItemSelected: itmVolver");
+                i = new Intent(Activity_Clean.this, Activity_Main.class);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

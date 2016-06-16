@@ -8,7 +8,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activity.Activity_Take">
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,77 +15,113 @@
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
         android:background="#4b4b4b">
+        <LinearLayout style="@style/campos" >
+            <!-- ********************************************************* -->
+            <!-- * Formulario -->
+            <!-- ********************************************************* -->
+            <!-- capturar -->
+            <LinearLayout style="@style/campo_comando" >
+                <TextView style="@style/campo_comando_nombre" android:text="@string/campoObtenerCapturar" />
+                <Button style="@style/comando_boton" android:text="@string/botonCapturar" android:id="@+id/viewForm_Capturar" />
+            </LinearLayout>
+            <!--VALOR NOMBRE FOTO-->
+            <LinearLayout style="@style/campo" android:background="#e0e0e0">
+                <TextView style="@style/campo_nombre" android:text="@string/campoFoto" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_Foto" />
+            </LinearLayout>
+            <!--VALOR IMAGEN-->
+            <LinearLayout style="@style/campo" >
+                <!-- TODO: poner estilo a la visualización de la imagen -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imagen"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+            <!--Check copia datos-->
+            <LinearLayout style="@style/campo_comando" >
+                <TextView style="@style/campo_comando_nombre" android:text="@string/campoCopiaSensor" />
+                <!--<Switch style="@style/comando_boton" android:id="@+id/viewForm_Copiar" android:text="SI/NO" />-->
+                <Button style="@style/comando_boton" android:text="@string/botonCopiar" android:id="@+id/viewForm_Copiar" />
+            </LinearLayout>
+            <LinearLayout style="@style/campo" android:background="#e0e0e0">
+                <!-- Latitud -->
+                <TextView style="@style/campo_nombre" android:text="@string/campoLatitud" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_Lat" />
+                <!-- Longitud -->
+                <TextView style="@style/campo_nombre" android:text="@string/campoLongitud" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_Lon" />
+            </LinearLayout>
+            <!--<LinearLayout style="@style/campo" android:background="#e0e0e0">-->
+            <!--</LinearLayout>-->
+            <!-- Compas -->
+            <LinearLayout style="@style/campo" android:background="#e0e0e0">
+                <TextView style="@style/campo_nombre" android:text="@string/campoComY" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_ComY" />
+                <TextView style="@style/campo_nombre" android:text="@string/campoComP" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_ComP" />
+                <TextView style="@style/campo_nombre" android:text="@string/campoComR" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_ComR" />
+            </LinearLayout>
+            <!-- Gyro -->
+            <LinearLayout style="@style/campo" android:background="#e0e0e0">
+                <TextView style="@style/campo_nombre" android:text="@string/campoGyroY" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_GyroY" />
+                <TextView style="@style/campo_nombre" android:text="@string/campoGyroP" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_GyroP" />
+                <TextView style="@style/campo_nombre" android:text="@string/campoGyroR" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_GyroR" />
+            </LinearLayout>
+            <!-- IMU -->
+            <LinearLayout style="@style/campo" android:background="#e0e0e0">
+                <TextView style="@style/campo_nombre" android:text="@string/campoAccX" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_AccX" />
+                <TextView style="@style/campo_nombre" android:text="@string/campoAccY" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_AccY" />
+                <TextView style="@style/campo_nombre" android:text="@string/campoAccZ" />
+                <EditText style="@style/campo_texto" android:id="@+id/viewForm_AccZ" />
+            </LinearLayout>
 
-    <LinearLayout style="@style/campos" >
-
-<!-- ********************************************************* -->
-<!-- * Formulario -->
-<!-- ********************************************************* -->
-<!-- capturar -->
-        <LinearLayout style="@style/campo_comando" >
-            <TextView style="@style/campo_comando_nombre" android:text="@string/campoObtenerCapturar" />
-            <Button style="@style/comando_boton" android:text="@string/botonCapturar" android:id="@+id/viewForm_Capturar" />
+            <!--VALOR LONGITUD-->
+            <!--<LinearLayout style="@style/campo" android:background="#e0e0e0">-->
+                <!--<TextView style="@style/campo_nombre" android:text="@string/campoLongitud" />-->
+                <!--<EditText style="@style/campo_texto" android:id="@+id/viewForm_Lon" />-->
+            <!--</LinearLayout>-->
+            <!--SUBMIT-->
+            <LinearLayout style="@style/campo_comando" >
+                <TextView style="@style/campo_comando_nombre" android:text="@string/campoFinalizar" />
+                <Button style="@style/comando_boton" android:text="@string/botonAceptar" android:id="@+id/viewForm_Procesar" />
+            </LinearLayout>
+            <!-- ********************************************************* -->
+            <!-- * Datos del sensor de GPS                               * -->
+            <!-- ********************************************************* -->
+            <LinearLayout style="@style/campo" >
+                <TextView style="@style/campo_titulo" android:text="@string/tituloGPS" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewGPS_Lat" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewGPS_Lon" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewGPS_Status" />
+            </LinearLayout>
+            <!-- ********************************************************* -->
+            <!-- * Datos del sensor del compas                           * -->
+            <!-- ********************************************************* -->
+            <LinearLayout style="@style/campo" >
+                <TextView style="@style/campo_titulo" android:text="@string/tituloCompas" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewCom_Y" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewCom_P" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewCom_R" />
+            </LinearLayout>
+            <!-- ********************************************************* -->
+            <!-- * Datos del sensor del IMU                              * -->
+            <!-- ********************************************************* -->
+            <LinearLayout style="@style/campo" >
+                <TextView style="@style/campo_titulo" android:text="@string/tituloIMU" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewGyro_Y" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewGyro_P" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewGyro_R" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewAcc_X" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewAcc_Y" />
+                <TextView style="@style/campo_nombre" android:id="@+id/viewAcc_Z" />
+            </LinearLayout>
         </LinearLayout>
-<!--VALOR NOMBRE FOTO-->
-        <LinearLayout style="@style/campo" android:background="#e0e0e0">
-            <TextView style="@style/campo_nombre" android:text="@string/campoFoto" />
-            <EditText style="@style/campo_texto" android:id="@+id/viewForm_Foto" />
-        </LinearLayout>
-<!--VALOR IMAGEN-->
-        <LinearLayout style="@style/campo" >
-            <!-- TODO: poner estilo a la visualización de la imagen -->
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imagen"
-                android:layout_gravity="center_horizontal" />
-        </LinearLayout>
-<!--Check copia datos-->
-        <LinearLayout style="@style/campo_comando" >
-            <TextView style="@style/campo_comando_nombre" android:text="@string/campoCopiaSensor" />
-            <!--<Switch style="@style/comando_boton" android:id="@+id/viewForm_Copiar" android:text="SI/NO" />-->
-            <Button style="@style/comando_boton" android:text="@string/botonCopiar" android:id="@+id/viewForm_Copiar" />
-        </LinearLayout>
-<!--VALOR LATITUD-->
-        <LinearLayout style="@style/campo" android:background="#e0e0e0">
-            <TextView style="@style/campo_nombre" android:text="@string/campoLatitud" />
-            <EditText style="@style/campo_texto" android:id="@+id/viewForm_Lat" />
-        </LinearLayout>
-<!--VALOR LONGITUD-->
-        <LinearLayout style="@style/campo" android:background="#e0e0e0">
-            <TextView style="@style/campo_nombre" android:text="@string/campoLongitud" />
-            <EditText style="@style/campo_texto" android:id="@+id/viewForm_Lon" />
-        </LinearLayout>
-<!--SUBMIT-->
-        <LinearLayout style="@style/campo_comando" >
-            <TextView style="@style/campo_comando_nombre" android:text="@string/campoFinalizar" />
-            <Button style="@style/comando_boton" android:text="@string/botonAceptar" android:id="@+id/viewForm_Procesar" />
-        </LinearLayout>
-
-<!-- ********************************************************* -->
-<!-- * Datos del sensor de GPS                               * -->
-<!-- * TODO: poner un titulo a esta sección                  * -->
-<!-- ********************************************************* -->
-        <LinearLayout style="@style/campo" >
-            <TextView style="@style/campo_titulo" android:text="@string/tituloGPS" />
-            <TextView style="@style/campo_nombre" android:id="@+id/viewGPS_Lat" />
-            <TextView style="@style/campo_nombre" android:id="@+id/viewGPS_Lon" />
-            <TextView style="@style/campo_nombre" android:id="@+id/viewGPS_Status" />
-        </LinearLayout>
-        <!-- GPS LATITUD -->
-        <!--<LinearLayout style="@style/campo" >-->
-        <!--</LinearLayout>-->
-        <!-- GPS LONGITUD -->
-        <!--<LinearLayout style="@style/campo" >-->
-        <!--</LinearLayout>-->
-        <!-- GPS ESTADO -->
-        <!--<LinearLayout style="@style/campo" >-->
-        <!--</LinearLayout>-->
-
-
-
-    </LinearLayout>
-
     </ScrollView>
-
 </RelativeLayout>

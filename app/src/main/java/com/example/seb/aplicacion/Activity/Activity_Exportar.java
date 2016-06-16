@@ -1,11 +1,14 @@
 package com.example.seb.aplicacion.Activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,6 +27,8 @@ import java.io.OutputStreamWriter;
 import extern.UsuariosSQLiteHelper;
 
 public class Activity_Exportar extends AppCompatActivity {
+
+    private final String DEBUG_TAG              = "Exportar";
 
     public TextView textView;
     public Button btnProcesar;
@@ -148,5 +153,25 @@ public class Activity_Exportar extends AppCompatActivity {
                 textView.setText( salida.toString() );
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.manu_volver, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i;
+        switch (item.getItemId()) {
+            case R.id.itmVolver:
+                Log.i(DEBUG_TAG, "onOptionsItemSelected: itmVolver");
+                i = new Intent(Activity_Exportar.this, Activity_Main.class);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -1,33 +1,17 @@
 package com.example.seb.aplicacion.Activity;
 
-//import extern.Databasehelper;
-import extern.Databasehelper;
 import extern.UsuariosSQLiteHelper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 
 import com.example.seb.aplicacion.R;
 import android.content.Intent;
-import android.view.View;
-import android.widget.Button;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 
 public class Activity_Splash extends AppCompatActivity {
 

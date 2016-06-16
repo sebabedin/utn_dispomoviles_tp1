@@ -140,22 +140,13 @@ public class Activity_Main extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        getMenuInflater().inflate(R.menu.menu_principal, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-//        uMenu menu;
-//        menu = new uMenu();
-//        if(!menu.uMenuToolBar_onOptionsItemSelected(item))
-//        {
-//            return super.onOptionsItemSelected(item);
-//        }
-//        return true;
-
         Intent i;
-
         switch (item.getItemId()) {
             case R.id.itmTakePhoto:
                 Log.i("onOptionsItemSelected", "itmTakePhoto");

@@ -8,6 +8,8 @@
     <string name="txtLogin_text">Login</string>
 
     <!--MENU-->
+    <string name="itemVolver">Volver</string>
+
     <string name="itmTakePhoto_title">Capturar</string>
     <string name="itmExport_title">Exportar</string>
     <string name="itmGallery_title">Galeria</string>
@@ -45,9 +47,22 @@
     <string name="campoObtenerCapturar">Obtener imagen</string>
     <string name="campoCopiaSensor">Sensores</string>
     <string name="tituloGPS">GPS</string>
+    <string name="tituloCompas">Compas</string>
+    <string name="tituloIMU">IMU</string>
     <string name="campoFinalizar">Finalizar</string>
     <string name="campoLatitud">Latitud</string>
     <string name="campoLongitud">Longitud</string>
     <string name="botonCopiar">Copiar</string>
 
+    <string name="campoComY">Compas YAW</string>
+    <string name="campoComP">Compas PITCH</string>
+    <string name="campoComR">Compas ROLL</string>
+
+    <string name="campoGyroY">IMU YAW</string>
+    <string name="campoGyroP">IMU PITCH</string>
+    <string name="campoGyroR">IMU ROLL</string>
+
+    <string name="campoAccX">IMU X</string>
+    <string name="campoAccY">IMU Y</string>
+    <string name="campoAccZ">IMU Z</string>
 </resources>
