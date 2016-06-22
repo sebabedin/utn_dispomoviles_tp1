@@ -14,10 +14,7 @@ import android.widget.TextView;
 
 import com.example.seb.aplicacion.R;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-public class Activity_Compas extends AppCompatActivity {
+public class debActivity_Compas extends AppCompatActivity {
 
     private float[] aValues = new float[3];
     private float[] mValues = new float[3];
@@ -32,7 +29,7 @@ public class Activity_Compas extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compas);
+        setContentView(R.layout.debactivity_compas);
 
         BearingTextView = (TextView)findViewById(R.id.Bearing);
         PitchTextView = (TextView)findViewById(R.id.Pitch);

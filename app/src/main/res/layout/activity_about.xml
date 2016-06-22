@@ -12,7 +12,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Activity de ABOUT"
-        android:id="@+id/textView" />
+        android:text="
+        UTN-FRBA 2016\n
+        Cátedra: Desarrolo de apliacaciones Mobile\n
+        Desarrollador: Sebastian Bedin\n
+        La aplicación permite tomar una fotografía y en adjuntarle automáticamente la información de geolocalización y orientación del equipo móvil. Toda la información se almacena en forma de archivos y como registros en una base de datos interna. La salida del sistema es un archivo, copia de la base de datos interna, pero que el usuario pueda procesarlo en la PC.\n
+        El objetivo de la aplicación es el de generar los datos de entrada a un software de procesamiento de imagenes para generar modelos digitales de objetos fotografiados. El campo de aplicación principal de este proyecto será en el procesamiendo de modelos digitales de elevación (o DEM según siglas en ingles) y mapas de alta resolución por técnicas de fotográmetria.\n
+        Contacto: sebabedin@gmail.com"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="21dp" />
 
 </RelativeLayout>

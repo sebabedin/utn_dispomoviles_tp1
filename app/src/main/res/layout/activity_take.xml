@@ -95,7 +95,7 @@
             <!-- ********************************************************* -->
             <!-- * Datos del sensor de GPS                               * -->
             <!-- ********************************************************* -->
-            <LinearLayout style="@style/campo" >
+            <LinearLayout style="@style/campo" android:id="@+id/viewForm_GPSDebug" >
                 <TextView style="@style/campo_titulo" android:text="@string/tituloGPS" />
                 <TextView style="@style/campo_nombre" android:id="@+id/viewGPS_Lat" />
                 <TextView style="@style/campo_nombre" android:id="@+id/viewGPS_Lon" />
@@ -104,7 +104,7 @@
             <!-- ********************************************************* -->
             <!-- * Datos del sensor del compas                           * -->
             <!-- ********************************************************* -->
-            <LinearLayout style="@style/campo" >
+            <LinearLayout style="@style/campo" android:id="@+id/viewForm_ComDebug" >
                 <TextView style="@style/campo_titulo" android:text="@string/tituloCompas" />
                 <TextView style="@style/campo_nombre" android:id="@+id/viewCom_Y" />
                 <TextView style="@style/campo_nombre" android:id="@+id/viewCom_P" />
@@ -113,7 +113,7 @@
             <!-- ********************************************************* -->
             <!-- * Datos del sensor del IMU                              * -->
             <!-- ********************************************************* -->
-            <LinearLayout style="@style/campo" >
+            <LinearLayout style="@style/campo" android:id="@+id/viewForm_IMUDebug" >
                 <TextView style="@style/campo_titulo" android:text="@string/tituloIMU" />
                 <TextView style="@style/campo_nombre" android:id="@+id/viewGyro_Y" />
                 <TextView style="@style/campo_nombre" android:id="@+id/viewGyro_P" />

@@ -8,47 +8,29 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activity.Activity_Exportar">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Exportar"
-                android:id="@+id/btnProcesar" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Leer"
-                android:id="@+id/btnLeer" />
-
+    <LinearLayout style="@style/campos" >
+        <!-- ********************************************************* -->
+        <!-- * Formulario -->
+        <!-- ********************************************************* -->
+        <!-- boton para exportar -->
+        <LinearLayout style="@style/campo_comando" >
+            <TextView style="@style/campo_comando_nombre" android:text="@string/campoExportar" />
+            <Button style="@style/comando_boton" android:text="@string/botonExportar" android:id="@+id/viewForm_Exportar" />
         </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+        <!-- boton para leer -->
+        <LinearLayout style="@style/campo_comando" >
+            <TextView style="@style/campo_comando_nombre" android:text="@string/campoLeer" />
+            <Button style="@style/comando_boton" android:text="@string/botonLeer" android:id="@+id/viewForm_Leer" />
+        </LinearLayout>
+        <!-- contenido -->
+        <LinearLayout style="@style/campo" android:background="#e0e0e0">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
-                android:id="@+id/contenido"
+                android:id="@+id/viewContenido"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
-
         </LinearLayout>
-
     </LinearLayout>
-
 </RelativeLayout>

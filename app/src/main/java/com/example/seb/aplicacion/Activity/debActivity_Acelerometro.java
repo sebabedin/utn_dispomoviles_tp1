@@ -14,7 +14,7 @@ import com.example.seb.aplicacion.R;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Activity_Acelerometro extends AppCompatActivity {
+public class debActivity_Acelerometro extends AppCompatActivity {
 
     private SensorManager sensorManager;
     private TextView accelerationTextView;
@@ -32,7 +32,7 @@ public class Activity_Acelerometro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_acelerometro);
+        setContentView(R.layout.debactivity_acelerometro);
 
         accelerationTextView = (TextView)findViewById(R.id.acceleration);
         maxAccelerationTextView = (TextView)findViewById(R.id.maxAcceleration);

@@ -1,10 +1,8 @@
 package com.example.seb.aplicacion.Activity;
 
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
@@ -12,12 +10,11 @@ import android.widget.TextView;
 import android.widget.RadioGroup;
 import android.widget.RadioButton;
 import android.widget.CheckBox;
-import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import com.example.seb.aplicacion.R;
 
-public class Activity_Botones extends AppCompatActivity {
+public class debActivity_Botones extends AppCompatActivity {
 
     /*
     Boton normal
@@ -59,7 +56,7 @@ public class Activity_Botones extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_botones);
+        setContentView(R.layout.debactivity_botones);
 
         /*
         Boton normal

@@ -6,11 +6,8 @@ import android.os.Bundle;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -18,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.seb.aplicacion.R;
 
-public class Activity_Localizacion extends AppCompatActivity {
+public class debActivity_Localizacion extends AppCompatActivity {
 
     private Button btnActualizar;
     private Button btnDesactivar;
@@ -33,7 +30,7 @@ public class Activity_Localizacion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_localizacion);
+        setContentView(R.layout.debactivity_localizacion);
 
         btnActualizar = (Button)findViewById(R.id.BtnActualizar);
         btnDesactivar = (Button)findViewById(R.id.BtnDesactivar);

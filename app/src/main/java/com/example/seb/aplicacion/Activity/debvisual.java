@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.example.seb.aplicacion.R;
 
-public class Activity_SQL extends AppCompatActivity {
+public class debvisual extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sql);
+        setContentView(R.layout.debactivity_visual);
     }
 }

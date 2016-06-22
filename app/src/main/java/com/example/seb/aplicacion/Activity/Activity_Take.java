@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -15,27 +17,35 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.seb.aplicacion.R;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Date;
 
 import extern.UsuariosSQLiteHelper;
@@ -69,6 +79,7 @@ public class Activity_Take extends AppCompatActivity {
     private GPSData gpsData;
     private CompasData compasData;
     private IMUData imuData;
+    private SettingData sett;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,12 +97,25 @@ public class Activity_Take extends AppCompatActivity {
         /**
          * Preferencias
          */
-        appSetting = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
-        sett_gps = appSetting.getBoolean("gps", true);
-        sett_imu = appSetting.getBoolean("gps", true);
-        com = appSetting.getBoolean("com", true);
-        if(sett_gps) {
+        sett = new SettingData();
+        if(sett.gps) {
             GPSLocation_Init();
+        }
+
+        LinearLayout viewFormGPSDebug = (LinearLayout) findViewById(R.id.viewForm_GPSDebug);
+        LinearLayout viewFormComDebug = (LinearLayout) findViewById(R.id.viewForm_IMUDebug);
+        LinearLayout viewFormIMUDebug = (LinearLayout) findViewById(R.id.viewForm_ComDebug);
+        int visible = View.GONE;
+        if(sett.debug) {
+            visible = View.VISIBLE;
+        }
+        viewFormGPSDebug.setVisibility(visible);
+        viewFormComDebug.setVisibility(visible);
+        viewFormIMUDebug.setVisibility(visible);
+
+        if(!sett.prefijo.isEmpty()) {
+            EditText viewFoto = (EditText) findViewById(R.id.viewForm_Foto);
+            viewFoto.setText(sett.prefijo);
         }
 
         imgImagen   = (ImageView) findViewById(R.id.imagen);
@@ -117,6 +141,12 @@ public class Activity_Take extends AppCompatActivity {
             }
         });
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        setContentView(R.layout.activity_take);
+//    }
 
     @Override
     protected void onResume() {
@@ -159,25 +189,18 @@ public class Activity_Take extends AppCompatActivity {
         bmp = (Bitmap) ext.get("data");
         imgImagen.setImageBitmap(bmp);
         formData.setFoto(null);
-        formData.GPSRefresh();
-        formData.CompasRefresh();
-        formData.IMURefresh();
+//        formData.GPSRefresh();
+//        formData.CompasRefresh();
+//        formData.IMURefresh();
     }
 
     private final SensorEventListener sensorEventListener = new SensorEventListener() {
         public void onSensorChanged(SensorEvent event) {
             if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
                 compasData.aValues = event.values;
-
                 imuData.accX = event.values[0];
                 imuData.accY = event.values[1];
                 imuData.accZ = event.values[2];
-//                double a = Math.round(Math.sqrt(Math.pow(x, 2) +
-//                        Math.pow(y, 2) +
-//                        Math.pow(z, 2)));
-//                currentAcceleration = Math.abs((float)(a-calibration));
-//                if (currentAcceleration > maxAcceleration)
-//                    maxAcceleration = currentAcceleration;
                 imuData.Refresh();
             }
             if (event.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD)
@@ -207,22 +230,18 @@ public class Activity_Take extends AppCompatActivity {
 
     public void viewProcesar_OnClick(View arg0) {
         Log.d(DEBUG_TAG, "viewProcesar_OnClick");
-
         if(!Form_FieldsCheck())
             return;
-
         if(!SD_BMPSave()) {
             Log.d(DEBUG_TAG, "viewProcesar_OnClick: SD_BMPSave");
             Toast.makeText(Activity_Take.this, MSG_PROCESO_ERROR, Toast.LENGTH_SHORT).show();
             return;
         }
-
         if(!DB_Insert()) {
             Log.d(DEBUG_TAG, "viewProcesar_OnClick: DB_Insert");
             Toast.makeText(Activity_Take.this, MSG_PROCESO_ERROR, Toast.LENGTH_SHORT).show();
             return;
         }
-
         imgImagen.setImageBitmap(null);
         Log.d(DEBUG_TAG, MSG_PROCESO_OK);
         Toast.makeText(Activity_Take.this, MSG_PROCESO_OK, Toast.LENGTH_SHORT).show();
@@ -231,8 +250,7 @@ public class Activity_Take extends AppCompatActivity {
     /*******************************************************************************
      * Localizacion
      *******************************************************************************/
-    private void GPSLocation_Init()
-    {
+    private void GPSLocation_Init() {
         locManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 GPS_PROVIDER_CYCLETIME,
@@ -250,17 +268,14 @@ public class Activity_Take extends AppCompatActivity {
                             gpsData.setPos(null, null);
                         }
                     }
-
                     public void onProviderDisabled(String provider) {
                         Log.i("", "GPS OFF");
                         gpsData.Disabled();
                     }
-
                     public void onProviderEnabled(String provider) {
                         Log.i("", "GPS ON");
                         gpsData.Enabled();
                     }
-
                     public void onStatusChanged(String provider, int status, Bundle extras) {
                         Log.i("", "GPS status: " + status);
                         gpsData.Status(status);
@@ -289,7 +304,7 @@ public class Activity_Take extends AppCompatActivity {
         boolean ret = false;
         if(SD_Check()) {
             try {
-                File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), formData.getFoto());
+                File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), sett.prefijo + formData.getFoto());
                 Log.d(DEBUG_TAG, "SD_BMPSave: " + f.toString());
                 FileOutputStream outStream = new FileOutputStream(f);
 
@@ -333,7 +348,7 @@ public class Activity_Take extends AppCompatActivity {
         boolean ret = false;
         Log.d(DEBUG_TAG, "DB_Insert");
         ContentValues values = new ContentValues();
-        values.put("cap_Foto", formData.getFoto());
+        values.put("cap_Foto", sett.prefijo + formData.getFoto());
         values.put("cap_IMU", (sett_imu ? 1 : 0));
         values.put("cap_GPS", (sett_gps ? 1 : 0));
         values.put("cap_GPS_Lat", formData.getLat());
@@ -437,8 +452,6 @@ public class Activity_Take extends AppCompatActivity {
             this.strAccZ = this.imu.strAccZ;
             this.viewRefresh();
         }
-
-
         public String getLat() {
             return this.viewLat.getText().toString();
         }
@@ -507,12 +520,6 @@ public class Activity_Take extends AppCompatActivity {
             this.viewAccX = (EditText) findViewById(R.id.viewForm_AccX);
             this.viewAccY = (EditText) findViewById(R.id.viewForm_AccY);
             this.viewAccZ = (EditText) findViewById(R.id.viewForm_AccZ);
-
-
-
-//            private EditText viewComY, viewComP, viewComR;
-//            private EditText viewGyroY, viewGyroP, viewGyroR;
-//            private EditText viewAccX, viewAccY, viewAccZ;
         }
 
         private void viewRefresh()
@@ -838,6 +845,25 @@ public class Activity_Take extends AppCompatActivity {
             this.viewAccX.setText("X: " + this.strAccX);
             this.viewAccY.setText("Y: " + this.strAccY);
             this.viewAccZ.setText("Z: " + this.strAccZ);
+        }
+    }
+
+    /*******************************************************************************
+     * Settings
+     *******************************************************************************/
+    private class SettingData
+    {
+        private boolean gps, imu, com, debug;
+        public String prefijo;
+
+        public SettingData()
+        {
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(Activity_Take.this);
+            this.gps    = pref.getBoolean("gps", true);
+            this.imu    = pref.getBoolean("imu", true);
+            this.com    = pref.getBoolean("com", true);
+            this.debug  = pref.getBoolean("debug", true);
+            this.prefijo = pref.getString("prefijo", "");
         }
     }
 }

@@ -9,6 +9,8 @@
 
     <!--MENU-->
     <string name="itemVolver">Volver</string>
+    <string name="itemEliminar">Eliminar</string>
+    <string name="itemModificar">Modificar</string>
 
     <string name="itmTakePhoto_title">Capturar</string>
     <string name="itmExport_title">Exportar</string>
@@ -43,9 +45,14 @@
     <string name="campoFoto">Foto</string>
     <string name="botonCapturar">Capturar</string>
     <string name="botonProcesar">Procesar</string>
+    <string name="botonBorrar">Borrar</string>
     <string name="botonAceptar">Aceptar</string>
     <string name="campoObtenerCapturar">Obtener imagen</string>
+    <string name="campoConfirmar">Confirmar</string>
     <string name="campoCopiaSensor">Sensores</string>
+    <string name="campoExportar">Exportar</string>
+    <string name="campoBorrar">Borrar</string>
+    <string name="campoLeer">Leer</string>
     <string name="tituloGPS">GPS</string>
     <string name="tituloCompas">Compas</string>
     <string name="tituloIMU">IMU</string>
@@ -53,6 +60,8 @@
     <string name="campoLatitud">Latitud</string>
     <string name="campoLongitud">Longitud</string>
     <string name="botonCopiar">Copiar</string>
+    <string name="botonExportar">Exportar</string>
+    <string name="botonLeer">Leer</string>
 
     <string name="campoComY">Compas YAW</string>
     <string name="campoComP">Compas PITCH</string>
@@ -65,4 +74,6 @@
     <string name="campoAccX">IMU X</string>
     <string name="campoAccY">IMU Y</string>
     <string name="campoAccZ">IMU Z</string>
+
+    <string name="msgAvisoBorradoo">Si eliminar los datos no podrán ser recuperados.</string>
 </resources>

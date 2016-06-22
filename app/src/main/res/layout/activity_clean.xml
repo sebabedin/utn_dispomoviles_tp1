@@ -9,24 +9,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Activity.Activity_Clean">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_alignParentStart="true">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Borrar"
-                android:id="@+id/btnProcesar" />
-
+    <LinearLayout style="@style/campos" >
+        <!-- ********************************************************* -->
+        <!-- * Formulario -->
+        <!-- ********************************************************* -->
+        <!-- aviso -->
+        <LinearLayout style="@style/campo" >
+            <TextView style="@style/campo" android:text="@string/msgAvisoBorradoo" />
+        </LinearLayout>
+        <!-- confirmar -->
+        <LinearLayout style="@style/campo_comando" >
+            <TextView style="@style/campo_comando_nombre" android:text="@string/campoConfirmar" />
+            <CheckBox style="@style/comando_boton" android:id="@+id/viewForm_Confirmar" />
+        </LinearLayout>
+        <!-- capturar -->
+        <LinearLayout style="@style/campo_comando" >
+            <TextView style="@style/campo_comando_nombre" android:text="@string/campoBorrar" />
+            <Button style="@style/comando_boton" android:text="@string/botonBorrar" android:id="@+id/viewForm_Borrar" />
         </LinearLayout>
 
     </LinearLayout>

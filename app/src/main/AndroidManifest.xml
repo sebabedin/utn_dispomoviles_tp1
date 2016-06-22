@@ -25,8 +25,8 @@
         </activity>
         <activity android:name=".Activity.Activity_Login" />
         <activity android:name=".Activity.Activity_Main" />
-        <activity android:name=".Activity.Activity_Botones" />
-        <activity android:name=".Activity.Activity_SQL" />
+        <activity android:name=".Activity.debActivity_Botones" />
+        <activity android:name=".Activity.debActivity_SQL" />
         <activity android:name=".Activity.Activity_About" />
         <activity android:name=".Activity.Activity_Settings" />
         <activity android:name=".Activity.Activity_Take" />
@@ -40,10 +40,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Activity.Activity_Localizacion" />
-        <activity android:name=".Activity.Activity_Acelerometro" />
-        <activity android:name=".Activity.Activity_Compas" />
-        <activity android:name=".Activity.visual"></activity>
+        <activity android:name=".Activity.debActivity_Localizacion" />
+        <activity android:name=".Activity.debActivity_Acelerometro" />
+        <activity android:name=".Activity.debActivity_Compas" />
+        <activity android:name=".Activity.debvisual"></activity>
     </application>
 
 </manifest>

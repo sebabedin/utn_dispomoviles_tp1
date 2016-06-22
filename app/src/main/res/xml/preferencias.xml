@@ -15,7 +15,7 @@
             android:title="GPS"
             android:summary="Activar datos GPS" />
         <EditTextPreference
-            android:key="name"
+            android:key="prefijo"
             android:title="Prefijo"
             android:summary="Prefijo"
             android:dialogTitle="Introduce valor" />
@@ -25,5 +25,9 @@
             android:key="log"
             android:title="Login"
             android:summary="Activar seguridad" />
+        <CheckBoxPreference
+            android:key="debug"
+            android:title="Debug"
+            android:summary="Modo Debug" />
     </PreferenceCategory>
 </PreferenceScreen>
